@@ -91,7 +91,7 @@ app.view('casecommment_action',async ({ ack, body, view, client }) => {
 const options = {
   hostname: 'login.salesforce.com',
   port: 443,
-  path: '/services/oauth2/token?grant_type=password&client_id=2934302292113.2914983207910&client_secret=e7526505e678cea7591f5eb5b26165a9&username=chandu.ch@springml.com&password=sales1237AHYGGQ4mO886oZGxvqvOMtE',
+  path: '/services/oauth2/token?grant_type=password&client_id=3MVG9fe4g9fhX0E4bLCp0QZ3z2iRBDTQbPfwLJxeu28hP4a9WyEagPKAwhslpXG.VGXpcEUH1PRCKuP74BJIF&client_secret=F97966EECE357ACD1BCBDE003C3103613119851680C3FDB9EDDC06F91B5398A1&username=chandu.ch@springml.com&password=sales1237AHYGGQ4mO886oZGxvqvOMtE',
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -126,7 +126,7 @@ const data1 = JSON.stringify({
 const options1 = {
 	hostname: test,
 	port: 443,
-	path: '/services/apexrest/Case',
+	path: '/services/apexrest/Case/Escalate',
 	method: 'POST',
 	headers: {
 	  'Content-Type': 'application/json',

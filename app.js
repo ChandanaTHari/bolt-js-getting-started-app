@@ -91,7 +91,7 @@ app.view('casecommment_action',async ({ ack, body, view, client }) => {
 const options = {
   hostname: 'login.salesforce.com',
   port: 443,
-  path: '/services/oauth2/token?grant_type=password&client_id=3MVG9p1Q1BCe9GmAMk2w932aB98xl8Ld.ZGbcUrE._J_ISZK0RcBwVrQL_lg7AeQgYuItn.TW8RFOhooirVd1&client_secret=e7526505e678cea7591f5eb5b26165a9&username=chandu.ch@springml.com&password=rally1237AHYGGQ4mO886oZGxvqvOMtE',
+  path: '/services/oauth2/token?grant_type=password&client_id=2934302292113.2914983207910&client_secret=e7526505e678cea7591f5eb5b26165a9&username=chandu.ch@springml.com&password=rally1237AHYGGQ4mO886oZGxvqvOMtE',
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'

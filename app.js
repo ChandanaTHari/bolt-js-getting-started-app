@@ -137,10 +137,51 @@ const options1 = {
   const req1 = https.request(options1, res1 => {
 	console.log(`statusCode: ${res1.statusCode}`)
   
-	res1.on('data', d => {
-	  console.log(d.toString());
-	})
-  });
+	res1.on("data", (d) => {
+		console.log(d.toString());
+		s=d.toString();
+		//trigger something to send msg in slack
+		 
+		try {
+		  // Call the chat.postMessage method using the WebClient
+		  // const result =  client.chat.postMessage({
+		  //   channel: chId,
+		  //   text: d.toString(),
+		  // });
+		  if(d.toString() == '"success"'){
+			  console.log("in if");
+			   app.view('casecommment_action', ({ ack }) => {
+				  ack({
+					  "response_action": "errors",
+						"errors": {
+							
+					  "cn": "Case Escalation Success!"
+				  } });
+			   });
+			  
+		  }
+		  else{
+			  console.log("in else");
+			  app.view('casecommment_action', ({ ack }) => {
+				  ack({
+					  "response_action": "errors",
+						"errors": {
+							
+					  "cn": "Please enter a valid case number"
+				  } });
+			  });
+
+		  }
+		  
+
+		  //console.log(result);
+		} catch (error) {
+
+		  
+		  console.error(error);
+		}
+	  });
+	});
   
   
   req1.on('error', error => {

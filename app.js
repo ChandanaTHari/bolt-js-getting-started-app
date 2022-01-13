@@ -29,53 +29,53 @@ app.command('/escalate', async ({ ack, payload, client }) => {
     // Call the views.open method using the WebClient passed to listeners
     const result = await client.views.open({
       trigger_id: payload.trigger_id,
-	view: {
-"type": "modal",
-	"callback_id": "casecommment_action",
-	"title": {
-		"type": "plain_text",
-		"text": "My App",
-		"emoji": true
-	},
-	"submit": {
-		"type": "plain_text",
-		"text": "Escalate",
-		"emoji": true
-	},
-	"close": {
-		"type": "plain_text",
-		"text": "Cancel",
-		"emoji": true
-	},
-	"blocks": [
-		{
-			"type": "input",
-			"block_id":"cn",
-			"element": {
-				"type": "plain_text_input",
-				"action_id": "case_number"
-			},
-			"label": {
-				"type": "plain_text",
-				"text": "Case Number",
-				"emoji": true
-			}
-		},
-		{
-			"type": "input",
-			"block_id":"comm",
-			"element": {
-				"type": "plain_text_input",
-				"action_id": "comment"
-			},
-			"label": {
-				"type": "plain_text",
-				"text": "Comment",
-				"emoji": true
-			}
-		}
-	]
-}
+	  view: {
+        type: "modal",
+        callback_id: "casecommment_action",
+        title: {
+          type: "plain_text",
+          text: "Case Escalation",
+          emoji: true,
+        },
+        submit: {
+          type: "plain_text",
+          text: "Escalate",
+          emoji: true,
+        },
+        close: {
+          type: "plain_text",
+          text: "Close",
+          emoji: true,
+        },
+        blocks: [
+          {
+            type: "input",
+            block_id: "cn",
+            element: {
+              type: "plain_text_input",
+              action_id: "case_number",
+            },
+            label: {
+              type: "plain_text",
+              text: "Case Number",
+              emoji: true,
+            },
+          },
+          {
+            type: "input",
+            block_id: "comm",
+            element: {
+              type: "plain_text_input",
+              action_id: "comment",
+            },
+            label: {
+              type: "plain_text",
+              text: "Case escalation comment",
+              emoji: true,
+            },
+          },
+        ],
+      },
 });
  console.log(result);
   }
@@ -143,11 +143,11 @@ const options1 = {
 		//trigger something to send msg in slack
 		 
 		try {
-		  // Call the chat.postMessage method using the WebClient
-		  // const result =  client.chat.postMessage({
-		  //   channel: chId,
-		  //   text: d.toString(),
-		  // });
+		 //  Call the chat.postMessage method using the WebClient
+		   const result =  client.chat.postMessage({
+		     channel: chId,
+		     text: d.toString(),
+		  });
 		  if(d.toString() == '"success"'){
 			  console.log("in if");
 			   app.view('casecommment_action', ({ ack }) => {

@@ -125,7 +125,7 @@ app.view("casecommment_action", async ({ ack, body, view, client }) => {
       const options1 = {
         hostname: test,
         port: 443,
-        path: "/services/apexrest/Case",
+        path: "/services/apexrest/Case/Escalate",
         method: "POST",
         headers: {
           "Content-Type": "application/json",

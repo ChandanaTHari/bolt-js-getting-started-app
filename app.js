@@ -1,6 +1,6 @@
-const { App } = require('@slack/bolt');
-const { Console } = require('console');
-const https = require('https');
+const { App } = require("@slack/bolt");
+const { Console } = require("console");
+const https = require("https");
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -13,7 +13,7 @@ const app = new App({
 });
 
 // Listens to incoming messages that contain "hello"
-app.message('case escalate', async ({ message, say }) => {
+app.message("case escalate", async ({ message, say }) => {
   // say() sends a message to the channel where the event was triggered
   await say({
 	 text: `Hey there <@${message.user}>!`
@@ -21,7 +21,7 @@ app.message('case escalate', async ({ message, say }) => {
 });
 
 
-app.command('/escalate', async ({ ack, payload, client }) => {
+app.command("/escalate", async ({ ack, payload, client }) => {
   // Acknowledge shortcut request
   ack();
 
@@ -84,17 +84,17 @@ app.command('/escalate', async ({ ack, payload, client }) => {
   }
 });
 
-app.view('casecommment_action',async ({ ack, body, view, client }) => { 
+app.view("casecommment_action",async ({ ack, body, view, client }) => { 
    await ack();
 
 	
 const options = {
-  hostname: 'login.salesforce.com',
+  hostname: "login.salesforce.com",
   port: 443,
-  path: '/services/oauth2/token?grant_type=password&client_id=3MVG9fe4g9fhX0E4bLCp0QZ3z2iRBDTQbPfwLJxeu28hP4a9WyEagPKAwhslpXG.VGXpcEUH1PRCKuP74BJIF&client_secret=F97966EECE357ACD1BCBDE003C3103613119851680C3FDB9EDDC06F91B5398A1&username=chandu.ch@springml.com&password=sales1237AHYGGQ4mO886oZGxvqvOMtE',
-  method: 'POST',
+  path: "/services/oauth2/token?grant_type=password&client_id=3MVG9fe4g9fhX0E4bLCp0QZ3z2iRBDTQbPfwLJxeu28hP4a9WyEagPKAwhslpXG.VGXpcEUH1PRCKuP74BJIF&client_secret=F97966EECE357ACD1BCBDE003C3103613119851680C3FDB9EDDC06F91B5398A1&username=chandu.ch@springml.com&password=sales1237AHYGGQ4mO886oZGxvqvOMtE",
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json"
   }
 }
 var jsondata;
@@ -103,14 +103,14 @@ var instance_url;
 const req = https.request(options, res => {
   console.log(`statusCode: ${res.statusCode}`)
 
-  res.on('data', d => {
+  res.on("data", d => {
     console.log(d.toString());
 	jsondata = JSON.parse(d.toString());
 	accesstoken = jsondata.access_token;
 	instance_url = jsondata.instance_url;
 	instance_url = instance_url.replace("https://", "");
-	console.log('accesstoken '+accesstoken);
-	console.log('instance_url '+instance_url);
+	console.log("accesstoken "+accesstoken);
+	console.log("instance_url "+instance_url);
 
 	//new
 	var test = instance_url;
@@ -126,12 +126,12 @@ const data1 = JSON.stringify({
 const options1 = {
 	hostname: test,
 	port: 443,
-	path: '/services/apexrest/Case/Escalate',
-	method: 'POST',
+	path: "/services/apexrest/Case/Escalate",
+	method: "POST",
 	headers: {
-	  'Content-Type': 'application/json',
-	  'Content-Length': data1.length,
-	  'Authorization':'OAuth '+accesstoken
+	  "Content-Type": "application/json",
+	  "Content-Length": data1.length,
+	  "Authorization":"OAuth "+accesstoken
 	}
   }
   const req1 = https.request(options1, res1 => {
@@ -150,26 +150,26 @@ const options1 = {
 		  });
 		  if(d.toString() == '"success"'){
 			  console.log("in if");
-			   app.view('casecommment_action', ({ ack }) => {
-				  ack({
-					  "response_action": "errors",
-						"errors": {
+			  // app.view('casecommment_action', ({ ack }) => {
+				//  ack({
+				//	  "response_action": "errors",
+				//		"errors": {
 							
-					  "cn": "Case Escalation Success!"
-				  } });
-			   });
+				//	  "cn": "Case Escalation Success!"
+				//  } });
+			   //});
 			  
 		  }
 		  else{
 			  console.log("in else");
-			  app.view('casecommment_action', ({ ack }) => {
-				  ack({
-					  "response_action": "errors",
-						"errors": {
+			 // app.view('casecommment_action', ({ ack }) => {
+			//	  ack({
+			//		  "response_action": "errors",
+			//			"errors": {
 							
-					  "cn": "Please enter a valid case number"
-				  } });
-			  });
+			//		  "cn": "Please enter a valid case number"
+			//	  } });
+			 // });
 
 		  }
 		  
@@ -184,7 +184,7 @@ const options1 = {
 	});
   
   
-  req1.on('error', error => {
+  req1.on("error", error => {
 	console.error(error)
   })
   req1.write(data1);
@@ -193,7 +193,7 @@ const options1 = {
   })
 });
 
-req.on('error', error => {
+req.on("error", error => {
   console.error(error)
 })
 

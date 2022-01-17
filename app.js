@@ -1,6 +1,6 @@
-const { App } = require("@slack/bolt");
-const { Console } = require("console");
-const https = require("https");
+const { App } = require('@slack/bolt');
+const { Console } = require('console');
+const https = require('https');
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -13,7 +13,7 @@ const app = new App({
 });
 
 // Listens to incoming messages that contain "hello"
-app.message("case escalate", async ({ message, say }) => {
+app.message('case escalate', async ({ message, say }) => {
   // say() sends a message to the channel where the event was triggered
   await say({
 	 text: `Hey there <@${message.user}>!`
@@ -21,7 +21,7 @@ app.message("case escalate", async ({ message, say }) => {
 });
 
 
-app.command("/escalate", async ({ ack, payload, client }) => {
+app.command('/escalate', async ({ ack, payload, client }) => {
   // Acknowledge shortcut request
   ack();
 
@@ -29,53 +29,53 @@ app.command("/escalate", async ({ ack, payload, client }) => {
     // Call the views.open method using the WebClient passed to listeners
     const result = await client.views.open({
       trigger_id: payload.trigger_id,
-	  view: {
-        type: "modal",
-        callback_id: "casecommment_action",
-        title: {
-          type: "plain_text",
-          text: "Case Escalation",
-          emoji: true,
-        },
-        submit: {
-          type: "plain_text",
-          text: "Escalate",
-          emoji: true,
-        },
-        close: {
-          type: "plain_text",
-          text: "Close",
-          emoji: true,
-        },
-        blocks: [
-          {
-            type: "input",
-            block_id: "cn",
-            element: {
-              type: "plain_text_input",
-              action_id: "case_number",
-            },
-            label: {
-              type: "plain_text",
-              text: "Case Number",
-              emoji: true,
-            },
-          },
-          {
-            type: "input",
-            block_id: "comm",
-            element: {
-              type: "plain_text_input",
-              action_id: "comment",
-            },
-            label: {
-              type: "plain_text",
-              text: "Case escalation comment",
-              emoji: true,
-            },
-          },
-        ],
-      },
+	view: {
+"type": "modal",
+	"callback_id": "casecommment_action",
+	"title": {
+		"type": "plain_text",
+		"text": "My App",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Escalate",
+		"emoji": true
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "input",
+			"block_id":"cn",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "case_number"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Case Number",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"block_id":"comm",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "comment"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Comment",
+				"emoji": true
+			}
+		}
+	]
+}
 });
  console.log(result);
   }
@@ -84,17 +84,17 @@ app.command("/escalate", async ({ ack, payload, client }) => {
   }
 });
 
-app.view("casecommment_action",async ({ ack, body, view, client }) => { 
+app.view('casecommment_action',async ({ ack, body, view, client }) => { 
    await ack();
 
 	
 const options = {
-  hostname: "login.salesforce.com",
+  hostname: 'login.salesforce.com',
   port: 443,
-  path: "/services/oauth2/token?grant_type=password&client_id=3MVG9fe4g9fhX0E4bLCp0QZ3z2iRBDTQbPfwLJxeu28hP4a9WyEagPKAwhslpXG.VGXpcEUH1PRCKuP74BJIF&client_secret=F97966EECE357ACD1BCBDE003C3103613119851680C3FDB9EDDC06F91B5398A1&username=chandu.ch@springml.com&password=sales1237AHYGGQ4mO886oZGxvqvOMtE",
-  method: "POST",
+  path: '/services/oauth2/token?grant_type=password&client_id=3MVG9fe4g9fhX0E4bLCp0QZ3z2iRBDTQbPfwLJxeu28hP4a9WyEagPKAwhslpXG.VGXpcEUH1PRCKuP74BJIF&client_secret=F97966EECE357ACD1BCBDE003C3103613119851680C3FDB9EDDC06F91B5398A1&username=chandu.ch@springml.com&password=sales1237AHYGGQ4mO886oZGxvqvOMtE',
+  method: 'POST',
   headers: {
-    "Content-Type": "application/json"
+    'Content-Type': 'application/json'
   }
 }
 var jsondata;
@@ -103,14 +103,14 @@ var instance_url;
 const req = https.request(options, res => {
   console.log(`statusCode: ${res.statusCode}`)
 
-  res.on("data", d => {
+  res.on('data', d => {
     console.log(d.toString());
 	jsondata = JSON.parse(d.toString());
 	accesstoken = jsondata.access_token;
 	instance_url = jsondata.instance_url;
 	instance_url = instance_url.replace("https://", "");
-	console.log("accesstoken "+accesstoken);
-	console.log("instance_url "+instance_url);
+	console.log('accesstoken '+accesstoken);
+	console.log('instance_url '+instance_url);
 
 	//new
 	var test = instance_url;
@@ -126,65 +126,24 @@ const data1 = JSON.stringify({
 const options1 = {
 	hostname: test,
 	port: 443,
-	path: "/services/apexrest/Case/Escalate",
-	method: "POST",
+	path: '/services/apexrest/Case/Escalate',
+	method: 'POST',
 	headers: {
-	  "Content-Type": "application/json",
-	  "Content-Length": data1.length,
-	  "Authorization":"OAuth "+accesstoken
+	  'Content-Type': 'application/json',
+	  'Content-Length': data1.length,
+	  'Authorization':'OAuth '+accesstoken
 	}
   }
   const req1 = https.request(options1, res1 => {
 	console.log(`statusCode: ${res1.statusCode}`)
   
-	res1.on("data", (d) => {
-		console.log(d.toString());
-		s=d.toString();
-		//trigger something to send msg in slack
-		 
-		try {
-		 //  Call the chat.postMessage method using the WebClient
-		   const result =  client.chat.postMessage({
-		     channel: chId,
-		     text: d.toString(),
-		  });
-		  if(d.toString() == '"success"'){
-			  console.log("in if");
-			  // app.view('casecommment_action', ({ ack }) => {
-				//  ack({
-				//	  "response_action": "errors",
-				//		"errors": {
-							
-				//	  "cn": "Case Escalation Success!"
-				//  } });
-			   //});
-			  
-		  }
-		  else{
-			  console.log("in else");
-			 // app.view('casecommment_action', ({ ack }) => {
-			//	  ack({
-			//		  "response_action": "errors",
-			//			"errors": {
-							
-			//		  "cn": "Please enter a valid case number"
-			//	  } });
-			 // });
-
-		  }
-		  
-
-		  //console.log(result);
-		} catch (error) {
-
-		  
-		  console.error(error);
-		}
-	  });
-	});
+	res1.on('data', d => {
+	  console.log(d.toString());
+	})
+  });
   
   
-  req1.on("error", error => {
+  req1.on('error', error => {
 	console.error(error)
   })
   req1.write(data1);
@@ -193,7 +152,7 @@ const options1 = {
   })
 });
 
-req.on("error", error => {
+req.on('error', error => {
   console.error(error)
 })
 
